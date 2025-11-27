@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sachin Kumar — Full Stack Developer</title>
+
+  <!-- Google Fonts + Icons -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="/script.js"></script>
+
+  <meta name="color-scheme" content="light dark">
+
+  <style>
+    /* =======================
+       VARIABLES & GLOBAL
+       ======================= */
+    :root{
+      --bg: #0b1020;
+      --card: rgba(255,255,255,0.04);
+      --muted: #9aa4b2;
+      --glass: rgba(255,255,255,0.06);
+      --accent: #00d4ff;
+      --accent-2: #6e3cff;
+      --glass-strong: rgba(255,255,255,0.08);
+      --text: #e6eef6;
+      --max-width: 1100px;
+      --radius: 14px;
+      --shadow: 0 6px 30px rgba(2,12,27,0.6);
+      --glass-border: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      --glass-blur: 10px;
+      --glass-glow: 0 6px 30px rgba(0,212,255,0.06);
+      --glass-2: rgba(255,255,255,0.03);
+    }
+
+    /* LIGHT THEME */
+    :root.light {
+      --bg: #f5f9ff;
+      --card: rgba(14,23,34,0.04);
+      --muted: #5b6470;
+      --glass: rgba(255,255,255,0.6);
+      --glass-2: rgba(0,0,0,0.03);
+      --text: #0b1020;
+      --shadow: 0 8px 30px rgba(2,12,27,0.06);
+      --glass-glow: 0 10px 40px rgba(110,60,255,0.06);
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 400px at 10% 10%, rgba(110,60,255,0.06), transparent),
+                  radial-gradient(1000px 300px at 90% 90%, rgba(0,212,255,0.04), transparent),
+                  var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    .wrap{ max-width:var(--max-width); margin:0 auto; padding:28px; position:relative; }
+
+    /* =======================
+       NAV / HEADER
+       ======================= */
+    header.site-header{
+      position:fixed;
+      left:0; right:0; top:12px;
+      z-index:999;
+      display:flex;
+      justify-content:center;
+      pointer-events:none;
+    }
+    .nav-inner{
+      width:calc(var(--max-width) + 56px);
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      pointer-events:all;
+      align-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:10px 18px;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(6px) saturate(120%);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text); }
+    .brand .logo {
+      width:44px;height:44px;border-radius:10px;
+      background: linear-gradient(135deg,var(--accent), var(--accent-2));
+      display:grid; place-items:center; color:#021226; font-weight:800; font-size:18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+    .brand .title { font-weight:700; font-size:16px; letter-spacing:0.2px; }
+    nav.main-nav { display:flex; gap:14px; align-items:center; }
+
+    nav.main-nav a{
+      color:var(--text); text-decoration:none; font-weight:600; font-size:14px;
+      padding:8px 12px; border-radius:10px;
+    }
+    nav.main-nav a:hover{ background:linear-gradient(90deg, rgba(0,212,255,0.06), rgba(110,60,255,0.04)); }
+
+    .header-actions{ display:flex; gap:10px; align-items:center; }
+    .theme-toggle, .cta-cv{
+      background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text);
+      padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:600;
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .theme-toggle{ font-size:14px; }
+    .cta-cv{ background: linear-gradient(90deg,var(--accent), var(--accent-2)); color:#021226; border:none; box-shadow:var(--glass-glow); }
+
+    /* =======================
+       HERO
+       ======================= */
+    .hero{
+      margin-top:100px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:36px;
+      align-items:center;
+      min-height:calc(100vh - 140px);
+    }
+
+    /* Animated organic blob (SVG) */
+    .blob-wrap{ position:relative; width:420px; height:420px; display:grid; place-items:center; }
+    .avatar {
+      width:300px; height:300px; border-radius:50%;
+      overflow:hidden; position:relative;
+      border:8px solid rgba(255,255,255,0.03);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.5), 0 0 40px rgba(0,212,255,0.08);
+    }
+    /* simple inline SVG avatar placeholder (replace with your image if you wish) */
+    .avatar img { width:110%; height:110%; object-fit:cover; display:block; }
+
+    .hero-left h1{
+      font-size:48px; margin:0 0 12px 0; line-height:1.02;
+      letter-spacing:-0.6px;
+    }
+    .muted { color:var(--muted); font-weight:500; font-size:15px; margin-top:8px; }
+    .hero-left p{ max-width:720px; margin-top:18px; font-size:16px; color:var(--muted); }
+
+    .hero-meta{ display:flex; gap:12px; margin-top:20px; align-items:center; }
+    .badge{ background: linear-gradient(90deg, rgba(0,212,255,0.12), rgba(110,60,255,0.08)); border-radius:999px; padding:10px 14px; font-weight:700; color:var(--accent); border: 1px solid rgba(255,255,255,0.03); }
+    .actions{ display:flex; gap:12px; margin-left:6px; }
+
+    .btn-ghost{ background:transparent; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); color:var(--text); cursor:pointer; }
+    .btn-primary{ background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:#021226; padding:10px 14px; border-radius:10px; border:none; cursor:pointer; box-shadow:var(--glass-glow); font-weight:700; }
+
+    /* typing text */
+    .type { color:var(--accent); font-weight:800; }
+
+    /* SOCIAL ICONS vertical */
+    .social-vertical{ position: absolute; left:-84px; top:40%; display:flex; flex-direction:column; gap:12px; transform:translateY(-50%); }
+    .social-vertical a{ width:46px; height:46px; border-radius:10px; display:grid; place-items:center; text-decoration:none; color:var(--text); background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); }
+
+    /* =======================
+       SECTIONS: ABOUT / SKILLS / RESUME / PROJECTS / CONTACT
+       ======================= */
+    section.block{ margin:56px 0; padding:36px; border-radius:16px; background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent); border:1px solid rgba(255,255,255,0.03); box-shadow:var(--shadow); backdrop-filter: blur(var(--glass-blur)); }
+
+    .split{ display:grid; grid-template-columns: 1fr 1fr; gap:28px; align-items:start; }
+    h2.section-title{ margin:0 0 8px 0; font-size:20px; letter-spacing:0.6px; }
+    p.lead{ color:var(--muted); margin:8px 0 18px 0; }
+
+    /* SKILLS: animated radial bars */
+    .skills { display:flex; gap:18px; flex-wrap:wrap; align-items:center; }
+    .skill-card{ flex:1; min-width:220px; background:var(--glass-2); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.02); }
+    .skill-name{ font-weight:700; margin-bottom:8px; }
+    .skill-bar{ height:10px; background:rgba(255,255,255,0.03); border-radius:999px; overflow:hidden; }
+    .skill-bar > i{ display:block; height:100%; width:0%; background: linear-gradient(90deg,var(--accent), var(--accent-2)); border-radius:999px; transition: width 1s cubic-bezier(.2,.9,.2,1); }
+
+    /* TECH STACK chips */
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+    .chip{ padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,0.04); background:rgba(255,255,255,0.02); font-weight:600; font-size:13px; color:var(--muted); }
+
+    /* RESUME TIMELINE */
+    .timeline { display:flex; flex-direction:column; gap:14px; margin-top:12px; }
+    .timeline-item{ display:flex; gap:14px; align-items:flex-start; background:var(--card); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02); }
+    .ti-date{ font-weight:800; color:var(--accent); min-width:110px; font-size:13px; }
+    .ti-content h4{ margin:0 0 6px 0; font-size:15px; }
+    .ti-content p{ margin:0; color:var(--muted); font-size:13px; }
+
+    /* PROJECTS GRID */
+    .projects-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; margin-top:18px; }
+    .project{
+      border-radius:12px; overflow:hidden; position:relative; cursor:pointer;
+      min-height:160px; border:1px solid rgba(255,255,255,0.03); transition:transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      display:flex; flex-direction:column; justify-content:flex-end; padding:14px;
+    }
+    .project:hover{ transform:translateY(-8px); box-shadow: 0 20px 50px rgba(2,12,27,0.6); }
+    .project h3{ margin:0; font-size:16px; }
+    .project p{ margin:8px 0 0 0; color:var(--muted); font-size:13px; }
+
+    .project .tags{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+    .project .tag{ font-size:12px; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,0.02); color:var(--muted); border:1px solid rgba(255,255,255,0.02); }
+
+    /* PROJECT MODAL */
+    .modal {
+      position: fixed; inset:0; display:none; place-items:center; z-index:1500;
+      background: linear-gradient(180deg, rgba(2,6,18,0.6), rgba(2,6,18,0.8));
+    }
+    .modal.show{ display:grid; }
+    .modal-card{ width:90%; max-width:900px; background:var(--bg); border-radius:12px; padding:22px; box-shadow:var(--shadow); border:1px solid rgba(255,255,255,0.04); }
+    .modal-close{ float:right; cursor:pointer; color:var(--muted); font-size:20px; }
+
+    /* CONTACT */
+    .contact-grid{ display:grid; grid-template-columns: 1fr 380px; gap:18px; align-items:start; }
+    .contact-card{ padding:18px; border-radius:12px; background:var(--card); border:1px solid rgba(255,255,255,0.02); }
+    .input, textarea.input{ width:100%; padding:12px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--text); outline:none; }
+    .input::placeholder{ color:var(--muted); }
+    .send-row{ display:flex; gap:12px; align-items:center; margin-top:12px; }
+    .note{ color:var(--muted); font-size:13px; }
+
+    /* FOOTER */
+    footer { margin-top:34px; padding:28px 0; text-align:center; color:var(--muted); font-size:14px; }
+
+    /* SMALL SCREENS */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr 360px; }
+      .projects-grid{ grid-template-columns: repeat(2,1fr); }
+      nav.main-nav{ display:none; }
+      .social-vertical{ display:none; }
+    }
+    @media (max-width:720px){
+      .wrap{ padding:18px; }
+      .hero{ grid-template-columns: 1fr; gap:20px; padding-bottom:20px; }
+      .blob-wrap{ width:320px; height:320px; margin:0 auto; }
+      .projects-grid{ grid-template-columns: 1fr; }
+      .split{ grid-template-columns: 1fr; }
+      .contact-grid{ grid-template-columns: 1fr; }
+      .nav-inner{ padding:8px; gap:10px; }
+      header.site-header{ top:10px; }
+    }
+
+    /* subtle entrance transitions */
+    [data-reveal] { opacity:0; transform:translateY(20px); transition: all 0.8s cubic-bezier(.2,.9,.2,1); will-change:transform,opacity; }
+    [data-reveal].is-visible { opacity:1; transform:none; }
+
+
+
+    .avatar img {
+      /* गोल shape */
+  object-fit: cover;       /* crop करके image को perfect fit करता है */
+  image-rendering: -webkit-optimize-contrast; /* Chrome में clarity बढ़ाता है */
+  image-rendering: crisp-edges;                /* कुछ browsers में sharpness बढ़ाता है */
+  filter: contrast(105%) brightness(105%);     /* हल्की clarity enhance */
+  transition: transform 0.3s ease;
+}
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="nav-inner" role="navigation" aria-label="Main navigation">
+      <a class="brand" href="#home">
+        <div class="logo">SK</div>
+        <div>
+          <div class="title">Sachin Kumar</div>
+          <div style="font-size:12px;color:var(--muted)">Full Stack Developer</div>
+        </div>
+      </a>
+ 
+      <nav class="main-nav" aria-hidden="false">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#resume">Qualification</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" aria-pressed="false" title="Toggle theme">
+          <i class='bx bx-moon'></i><span class="sr-only">Toggle theme</span>
+        </button>
+       <a class="cta-cv" href="Resume/my_cv_.pdf" download="Sachin_Kumar_CV.pdf" target="_blank" title="Download CV (PDF)">
+          <i class='bx bxs-download'></i> Download CV
+         </a>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="home" role="main">
+    <!-- SOCIAL VERTICAL -->
+    <div class="social-vertical" aria-hidden="true">
+      <a href="https://github.com/dashboard" title="GitHub"><i class='bx bxl-github'></i></a>
+      <a href="https://www.linkedin.com/in/sachin-kumar-800a6237b/" title="LinkedIn"><i class='bx bxl-linkedin'></i></a>
+      <a href="https://www.instagram.com/sachiin_.024?igsh=MmxiOG5nbTRvemo2" title="instagram"><i class='bx bxl-instagram'></i></a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-left" data-reveal>
+        <div class="badge">Open to opportunities • Remote / Hybrid</div>
+        <h1>Hi — I’m <span style="color:var(--accent)">Sachin Kumar</span></h1>
+        <div style="display:flex;align-items:baseline;gap:12px;">
+          <h2 style="margin:0;">I build beautiful & scalable web apps</h2>
+          <div class="type" id="typed"></div>
+        </div>
+        <p class="lead">I design and develop performant full-stack applications with user-first interfaces. My stacks include React, Node.js, Express, MongoDB/MySQL — and I enjoy turning product ideas into polished web experiences.</p>
+
+        <div class="hero-meta">
+          <div class="actions">
+            <button class="btn-primary" id="projectsScroll">View Projects</button>
+            <button class="btn-ghost" id="contactScroll">Let's Talk</button>
+          </div>
+        </div>
+
+        <div style="margin-top:18px;">
+          <strong style="color:var(--text)">Quick facts</strong>
+          <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
+            <div style="background:var(--card); padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);">
+              <div style="font-weight:800">1+</div><div style="font-size:12px;color:var(--muted)">Years Experience</div>
+            </div>
+            <div style="background:var(--card); padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);">
+              <div style="font-weight:800">4+</div><div style="font-size:12px;color:var(--muted)">Projects shipped</div>
+            </div>
+            <div style="background:var(--card); padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);">
+              <div style="font-weight:800">MERN</div><div style="font-size:12px;color:var(--muted)">Primary Stack</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="blob-wrap" data-reveal>
+        <!-- Animated blob + avatar -->
+        <svg viewBox="0 0 600 600" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; filter:blur(18px); opacity:0.28;">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#00d4ff"/>
+              <stop offset="1" stop-color="#6e3cff"/>
+            </linearGradient>
+          </defs>
+          <g transform="translate(300,300)">
+            <path id="blob" d="M120,-162C160,-131,182,-88,197,-36C213,16,222,76,193,107C164,138,96,140,44,141C-8,142,-49,144,-87,126C-125,108,-160,70,-166,21C-172,-28,-149,-86,-112,-129C-76,-171,-38,-198,2,-201C42,-204,84,-183,120,-162Z" fill="url(#g1)"></path>
+          </g>
+        </svg>
+
+        <div class="avatar" style="z-index:2; position:relative;">
+          <!-- Replace src with your image path if you have one -->
+          <!-- <img alt="Sachin Kumar"   src="https://wallpapers.com/images/hd/cool-profile-picture-ld8f4n1qemczkrig.jpg";utf8, -->
+          <img alt="Sachin Kumar"   src="Images/mypic1.jpg" />
+            <!-- <svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'>
+              <rect fill='%23010a12' width='100%' height='100%'></rect>
+              <g transform='translate(300,300)'>
+                <circle r='120' fill='%2300d4ff' opacity='0.12'/>
+                <text x='0' y='12' font-family='Inter, sans-serif' font-size='90' fill='%23ffffff' text-anchor='middle' font-weight='800'>SK</text>
+              </g>
+            </svg>" /> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="block" aria-labelledby="about-heading" data-reveal>
+      <h2 class="section-title" id="about-heading">About Me</h2>
+      <p class="lead">Product-minded full stack developer crafting modern web applications with delightful UX and solid engineering. I care about clean code, maintainable architecture, and performance.</p>
+      <div class="split">
+        <div>
+          <h3 style="margin:0 0 10px 0">What I do</h3>
+          <p style="color:var(--muted)">I build full-stack web applications from idea to production. I create component-driven frontends with React, write scalable REST APIs with Node & Express, and design fast, reliable data layers with MongoDB / MySQL.</p>
+
+          <div style="margin-top:14px;">
+            <h4 style="margin-bottom:8px;">How I work</h4>
+            <ul style="color:var(--muted); margin-left:14px; line-height:1.7;">
+              <li><strong>Product-first:</strong> Focus on user value and iterate quickly.</li>
+              <li><strong>Testable code:</strong> Write components & APIs with testability in mind.</li>
+              <li><strong>Performance:</strong> Optimize for loading speed and runtime efficiency.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin:0 0 10px 0">Contact snapshot</h3>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="contact-card" style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:800">Location</div>
+                <div style="color:var(--muted)">Alambagh, Lucknow, India</div>
+              </div>
+              <div style="font-size:20px;color:var(--muted)"><i class='bx bx-map'></i></div>  
+            </div>
+
+            <div class="contact-card" style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:800">Email</div>
+                <div style="color:var(--muted)"><a href="mailto:sachin21539@gmail.com" style="color:var(--accent); text-decoration:none;">sachin21539@gmail.com</a></div>
+              </div>
+              <div style="font-size:20px;color:var(--muted)"><i class='bx bx-envelope'></i></div>
+            </div>
+
+            <div class="contact-card" style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:800">Phone</div>
+                <div style="color:var(--muted)">+91 96962 27834</div>
+              </div>
+              <div style="font-size:20px;color:var(--muted)"><i class='bx bx-phone'></i></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="block" data-reveal>
+      <h2 class="section-title">Skills</h2>
+      <p class="lead">Hands-on experience across front-end, back-end, and databases. Comfortable with modern development workflows and tools.</p>
+
+      <div class="skills">
+        <div class="skill-card" aria-hidden="false">
+          <div class="skill-name">Frontend — React & UI</div>
+          <div class="skill-bar"><i data-w="92%"></i></div>
+          <div class="chips">
+            <div class="chip">React</div>
+            <div class="chip">Tailwind / CSS</div>
+            <div class="chip">HTML5</div>
+            <div class="chip">Accessibility</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-name">Backend — Node.js & APIs</div>
+          <div class="skill-bar"><i data-w="88%"></i></div>
+          <div class="chips">
+            <div class="chip">Node.js</div>
+            <div class="chip">Express</div>
+            <div class="chip">REST & Auth</div>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-name">Databases & DevOps</div>
+          <div class="skill-bar"><i data-w="80%"></i></div>
+          <div class="chips">
+            <div class="chip">MongoDB</div>
+            <div class="chip">MySQL</div>
+            <div class="chip">Docker</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUME / TIMELINE -->
+    <section id="resume" class="block" data-reveal>
+      <h2 class="section-title">Experience & Education</h2>
+      <p class="lead">A condensed timeline highlighting roles, certifications and education relevant to web development.</p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="ti-date">Mar 2025 — Sep 2025</div>
+          <div class="ti-content">
+            <h4>Full Stack Development — Hanumant Technology Pvt. Ltd.</h4>
+            <p>6-month intensive certification covering HTML, CSS, JS, React, Node.js, Express and DBMS. Built multiple production-like projects with CI workflows.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="ti-date">2023 — 2026</div>
+          <div class="ti-content">
+            <h4>BCA — Indira Gandhi National Open University (IGNOU)</h4>
+            <p>Focused on programming, algorithms and software engineering fundamentals.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="ti-date">2021 — 2023</div>
+          <div class="ti-content">
+            <h4>Intermediate (Class 12) — B.S.N.V. Inter College</h4>
+            <p>Biology stream with solid foundation in analytical thinking.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="block" data-reveal>
+      <h2 class="section-title">Selected Projects</h2>
+      <p class="lead">Projects showcasing front-end design, full-stack architectures, and problem solving.</p>
+
+      <div class="projects-grid" id="projectsGrid">
+        <!-- Project 1 -->
+        <div class="project" data-projid="1" role="button" tabindex="0" aria-pressed="false">
+          <h3>BookShare – MERN Stack Web application</h3>
+          <p>Full-stack platform to buy, sell & share books with secure authentication, book listings, search filters, geolocation, reviews, and an admin dashboard.</p>
+          <div class="tags">
+            <span class="tag">MongoDB</span>
+            <span class="tag">Express</span>
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+          </div>
+           </div>
+
+
+        <!-- Project 2 -->
+       <div class="project" data-projid="2" role="button" tabindex="0" aria-pressed="false">
+      <h3>Expense Tracker</h3>
+      <p>Smart finance tracker with expense CRUD, category-wise filters, monthly analytics, and visual insights using interactive charts.</p>
+      <div class="tags">
+        <span class="tag">React</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Recharts</span>
+       </div>
+       </div>
+
+
+        <!-- Project 3 -->
+       <div class="project" data-projid="3" role="button" tabindex="0" aria-pressed="false">
+        <h3>Weather App </h3>
+        <p>Real-time weather application using external API to display temperature, humidity, wind speed, and location-based forecasts.</p>
+        <div class="tags">
+          <span class="tag">React</span>
+          <span class="tag">API</span>
+          <span class="tag">JavaScript</span>
+           </div>
+          </div>
+
+
+        <!-- Project 4 -->
+        <div class="project" data-projid="4" role="button" tabindex="0" aria-pressed="false">
+          <h3>Calculator Web App</h3>
+          <p>Lightweight JS calculator with keyboard input & responsive UI.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="project" data-projid="5" role="button" tabindex="0" aria-pressed="false">
+          <h3>Netflix Clone</h3>
+          <p>Netflix-inspired UI for browsing movies — implemented using HTML & CSS</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag"></span></div>
+        </div>
+
+        <!-- Project 6 -->
+        <div class="project" data-projid="6" role="button" tabindex="0" aria-pressed="false">.
+          <h3>Nicepage clone</h3>
+          <p>Template-based site with reusable components and CMS-ready markup.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+
+    
+    <section id="contact" class="block" data-reveal>
+      <h2 class="section-title">Contact</h2>
+      <p class="lead">Interested in collaborating? Fill the contact form or connect via email/LinkedIn.</p>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3 style="margin-top:0;">Send a message</h3>
+          <form id="contactForm" onsubmit="return false;" aria-label="Contact form">
+            <label class="note">Full name</label>
+            <input type="text" id="name" class="input" placeholder="Your full name" required />
+
+            <label class="note">Email</label>
+            <input type="email" id="email" class="input" placeholder="you@domain.com" required />
+
+            <label class="note">Message</label>
+            <textarea id="message" class="input" rows="6" placeholder="Tell me about your project..." required></textarea>
+
+            <div class="send-row">
+              <button class="btn-primary" id="sendBtn" type="submit">Send Message</button>
+              <div class="note" id="sendStatus">I'll usually reply within 24–48 hours.</div>
+            </div>
+          </form>
+        </div>
+
+        
+
+        <div style="display:flex;flex-direction:column; gap:12px;">
+          <div class="contact-card">
+            <h4 style="margin:0 0 6px 0;">Let's connect</h4>
+            <p style="color:var(--muted); margin:0 0 8px 0;">Email, LinkedIn or GitHub — pick any. I love discussing ideas, code reviews, and collaboration.</p>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <a class="chip" href="mailto:sachin21539@gmail.com"><i class='bx bx-envelope'></i>&nbsp; Email</a>
+              <a class="chip" href="https://www.linkedin.com/in/sachin-kumar-800a6237b/" target="_blank"><i class='bx bxl-linkedin'></i>&nbsp; LinkedIn</a>
+              <a class="chip" href="https://github.com/dashboard" target="_blank"><i class='bx bxl-github'></i>&nbsp; GitHub</a>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h4 style="margin:0 0 6px 0;">Availability</h4>
+            <p style="color:var(--muted); margin:0;">Open for freelance & full-time roles. Prefer remote or hybrid work. Full-time availability starting Jan 2026.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>Designed with ❤️ by <strong>Sachin Kumar</strong> • © <span id="year"></span></div>
+      <div style="margin-top:8px; font-size:13px; color:var(--muted);">Built with HTML · CSS · JavaScript</div>
+    </footer>
+  </main>
+
+  <!-- PROJECT MODAL -->
+  <div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" role="document">
+      <div style="display:flex;justify-content:space-between;align-items:start;">
+        <div>
+          <h3 id="modalTitle">Project Title</h3>
+          <div style="color:var(--muted)" id="modalSubtitle">Short subtitle</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <a class="btn-ghost" id="modalDemo" href="#" target="_blank"><i class='bx bx-link-external'></i> Live</a>
+          <button class="btn-ghost" id="modalClose"><i class='bx bx-x'></i></button>
+        </div>
+      </div>
+
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03); margin:16px 0;" />
+      <div style="display:grid;grid-template-columns:1fr 320px; gap:16px;">
+        <div>
+          <p id="modalDesc" style="color:var(--muted);">Full project description goes here. Explain the problem, approach, notable technologies and architecture decisions, and outcomes like performance or metrics.</p>
+          <h4 style="margin-top:12px;">Highlights</h4>
+          <ul id="modalHighlights" style="color:var(--muted)">
+            <li>Feature 1</li>
+            <li>Feature 2</li>
+            <li>Feature 3</li>
+          </ul>
+        </div>
+
+        <aside style="background:var(--glass-2); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);">
+          <div style="font-weight:800; margin-bottom:10px;">Tech stack</div>
+          <div id="modalStack" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+          <div style="margin-top:16px;">
+            <div style="font-weight:800">Role</div>
+            <div style="color:var(--muted); margin-top:6px;" id="modalRole">Frontend & Backend</div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script>
+    // small helpers
+    const els = sel => Array.from(document.querySelectorAll(sel));
+    const $ = sel => document.querySelector(sel);
+
+    // set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // THEME: remember preference
+    const root = document.documentElement;
+    const bodyClass = root.classList;
+    const themeToggle = $('#themeToggle');
+    const initial = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    if(initial === 'light') bodyClass.add('light');
+    themeToggle.setAttribute('aria-pressed', initial === 'light');
+
+    function toggleTheme(){
+      const isLight = bodyClass.toggle('light');
+      themeToggle.setAttribute('aria-pressed', isLight);
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      themeToggle.innerHTML = isLight ? "<i class='bx bx-sun'></i>" : "<i class='bx bx-moon'></i>";
+    }
+    themeToggle.addEventListener('click', toggleTheme);
+    // set icon initial
+    themeToggle.innerHTML = bodyClass.contains('light') ? "<i class='bx bx-sun'></i>" : "<i class='bx bx-moon'></i>";
+
+    // TYPING effect (simple)
+    (function typingEffect(){
+      const el = document.getElementById('typed');
+      const words = ['MERN Developer', 'Frontend Engineer', 'Problem Solver'];
+      let w=0, i=0, forward=true;
+      function step(){
+        const word = words[w];
+        el.textContent = word.slice(0,i) + (Date.now()%1000<500 ? '|' : '');
+        if(forward){ i++; if(i>word.length){ forward=false; setTimeout(step,1200); return; } }
+        else { i--; if(i<0){ forward=true; w=(w+1)%words.length; } }
+        setTimeout(step, forward?80:40);
+      }
+      step();
+    })();
+
+    // reveal on scroll (IntersectionObserver)
+    (function revealOnScroll(){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        });
+      }, {threshold:0.12});
+      document.querySelectorAll('[data-reveal]').forEach(n => io.observe(n));
+    })();
+
+    // Skills animate bars when visible
+    (function skillBars(){
+      const bars = els('.skill-bar i');
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{
+          if(en.isIntersecting){
+            const target = en.target;
+            const w = target.getAttribute('data-w') || '80%';
+            target.style.width = w;
+            io.unobserve(target);
+          }
+        });
+      }, {threshold:0.3});
+      bars.forEach(b => io.observe(b));
+    })();
+
+    // Smooth scroll buttons
+    $('#projectsScroll').addEventListener('click', ()=> document.querySelector('#projects').scrollIntoView({behavior:'smooth'}));
+    $('#contactScroll').addEventListener('click', ()=> document.querySelector('#contact').scrollIntoView({behavior:'smooth'}));
+    els('nav.main-nav a').forEach(a=> a.addEventListener('click', e=> { e.preventDefault(); document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'}); }));
+
+    // PROJECT MODAL DATA (replace details with real descriptions)
+    const projectData = {
+      1:{ title:'BookShare – MERN Stack Web Application', subtitle:'Buy, sell & share books with a full-stack marketplace',   desc: 'BookShare is a full-stack MERN application that allows users to upload, buy and sell books with secure authentication, geolocation-based book suggestions, image uploads, search filters, reviews and an admin dashboard. Built with React, Node.js, Express and MongoDB with a clean UI and optimized backend architecture.',highlights:[ 'User authentication & JWT security','Book upload with images & categories','Search, filters & location-based suggestions','Responsive UI with seller dashboard',], stack:['MongoDB', 'Express', 'React', 'Node.js'] , role:'Full Stack Developer' , demo:'https://book-share-store-frontend.vercel.app/'},
+      2:{ title:'Expense Tracker (React)', subtitle:'Smart personal finance tracker', desc:'Track daily expenses with CRUD operations, category filters, monthly summaries, and interactive charts for visual insights.', highlights:['Expense CRUD', 'Category filters', 'Monthly analytics', 'Interactive charts'], stack:['React', 'LocalStorage', 'Recharts'], role:'Frontend', demo:'https://expence-tracker-ashen-ten.vercel.app/' },
+      3:{ title:'Weather App', subtitle:'Real-time weather forecast',   desc: 'React-based weather application using a live API to show temperature, humidity, wind speed, and location-based forecasts with a clean UI.', highlights:['Real-time API data', 'City search', 'Location-based weather', 'Responsive UI'], stack:['React', 'JavaScript', 'Weather API'], role:'Frontend', demo:'https://weather-app-two-alpha-82.vercel.app/' },
+      4:{ title:'Calculator Web App', subtitle:'Lightweight JS calculator', desc:'Small single-file calculator with keyboard support, clear UX and light performance footprint.', highlights:['Keyboard support','Responsive','Minimal UI'], stack:['HTML','CSS','JS'], role:'Full Stack (Frontend)', demo:'https://calculator-made-by-sachin.netlify.app/' },
+      5:{ title:'Netflix Clone', subtitle:'Netflix-style UI built using HTML & CSS', desc:'A static Netflix-inspired homepage built entirely with HTML and CSS. Includes hero banner, featured sections, movie cards, hover effects, responsive layout and modern UI styling — all without any JavaScript', highlights:['Pixel-perfect Netflix-style layout', 'Fully responsive using pure CSS','Clean and modern UI components'], stack:['HTML','CSS'], role:'Frontend', demo:'https://netfkix-clone-sachinkumar.netlify.app/' },
+      6:{ title:'Nicepage Template', subtitle:'Reusable template', desc:'A template with modular sections intended for quick landing pages and client handoffs.', highlights:['Reusable components','Template-ready','Easy customization'], stack:['HTML','CSS'], role:'Designer', demo:'https://niceoage-clone-sachinkumar.netlify.app/' },
+    };
+
+    // attach project click listeners
+    els('.project').forEach(p => {
+      p.addEventListener('click', ()=> openProject(p.dataset.projid));
+      p.addEventListener('keydown', (e)=> { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProject(p.dataset.projid); } });
+    });
+
+    const modal = $('#projectModal');
+    function openProject(id){
+      const data = projectData[id];
+      if(!data) return;
+      $('#modalTitle').textContent = data.title;
+      $('#modalSubtitle').textContent = data.subtitle;
+      $('#modalDesc').textContent = data.desc;
+      const ul = $('#modalHighlights'); ul.innerHTML = '';
+      data.highlights.forEach(h=> { const li = document.createElement('li'); li.textContent=h; ul.appendChild(li); });
+      const stack = $('#modalStack'); stack.innerHTML = '';
+      data.stack.forEach(s => { const sp = document.createElement('div'); sp.className='chip'; sp.style.margin='0'; sp.style.padding='6px 8px'; sp.style.fontWeight='700'; sp.textContent=s; stack.appendChild(sp); });
+      $('#modalRole').textContent = data.role;
+      $('#modalDemo').href = data.demo || '#';
+      modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
+    }
+    $('#modalClose').addEventListener('click', ()=> { modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); });
+    modal.addEventListener('click', (e)=> { if(e.target === modal) { modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); } });
+
+    // CONTACT form: simulate send, validate
+    $('#contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = $('#name').value.trim(), email = $('#email').value.trim(), message = $('#message').value.trim();
+      if(!name || !email || !message){ alert('Please fill all fields'); return; }
+      // Simulate sending...
+      const btn = $('#sendBtn'); btn.textContent = 'Sending...'; btn.disabled = true;
+      await new Promise(r=>setTimeout(r, 900));
+      btn.textContent = 'Sent ✓';
+      $('#sendStatus').textContent = 'Message sent — I will reply to your email soon. Thank you!';
+      // reset after a short delay
+      setTimeout(()=>{ btn.textContent = 'Send Message'; btn.disabled = false; $('#contactForm').reset(); }, 2200);
+    });
+
+    // CV download (simulate -> replace href with actual PDF)
+    $('#downloadCV').addEventListener('click', (e)=> {
+      e.preventDefault();
+      // Replace with actual pdf URL when available
+      const url = '#';
+      // Basic UX: open new tab; or emulate download if file present
+      window.open(url, '_blank');
+      // small visual effect
+      $('#downloadCV').textContent = 'Opening...';
+      setTimeout(()=> $('#downloadCV').innerHTML = "<i class='bx bxs-download'></i> Download CV", 900);
+    });
+
+    // small floating blob animation (morph)
+    (function animateBlob(){
+      const svgPath = document.querySelector('#blob');
+      if(!svgPath) return;
+      const frames = [
+        "M120,-162C160,-131,182,-88,197,-36C213,16,222,76,193,107C164,138,96,140,44,141C-8,142,-49,144,-87,126C-125,108,-160,70,-166,21C-172,-28,-149,-86,-112,-129C-76,-171,-38,-198,2,-201C42,-204,84,-183,120,-162Z",
+        "M126,-150C162,-132,186,-90,190,-47C194,-4,183,39,152,78C121,117,71,150,12,160C-46,170,-93,158,-121,118C-149,78,-158,11,-148,-45C-137,-101,-108,-148,-63,-170C-18,-192,38,-188,86,-170C134,-152,90,-168,126,-150Z",
+        "M112,-160C148,-136,183,-112,197,-72C211,-31,204,12,180,52C156,92,114,125,66,144C18,162,-36,166,-75,144C-114,121,-137,72,-150,22C-163,-28,-168,-84,-145,-119C-122,-154,-61,-168,-8,-170C45,-172,84,-184,112,-160Z"
+      ];
+      let f=0;
+      setInterval(()=> {
+        svgPath.setAttribute('d', frames[f%frames.length]);
+        f++;
+      }, 2200);
+    })();
+
+    // A11Y: close modal on ESC
+    window.addEventListener('keydown', e => {
+      if(e.key === 'Escape'){ if(modal.classList.contains('show')) { modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); } }
+    });
+
+    // Subtle entrance of hero elements
+    setTimeout(()=> document.querySelector('[data-reveal]').classList.add('is-visible'), 340);
+
+    // gentle parallax effect for blob and avatar based on mouse
+    (function parallax(){
+      const container = document.querySelector('.blob-wrap');
+      if(!container) return;
+      const avatar = container.querySelector('.avatar');
+      const blob = container.querySelector('#blob');
+      container.addEventListener('mousemove', (e)=>{
+        const r = container.getBoundingClientRect();
+        const x = (e.clientX - r.left)/(r.width) - 0.5;
+        const y = (e.clientY - r.top)/(r.height) - 0.5;
+        avatar.style.transform = `translate(${x*12}px, ${y*12}px) rotate(${x*6}deg)`;
+        if(blob) blob.setAttribute('transform', `translate(${300 + x*24},${300 + y*18})`);
+      });
+      container.addEventListener('mouseleave', ()=>{ avatar.style.transform='none'; if(blob) blob.setAttribute('transform', 'translate(300,300)'); });
+    })();
+
+  </script>
+</body>
+</html>
